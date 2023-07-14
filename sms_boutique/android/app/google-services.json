@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "827310554680",
+    "project_id": "gest-stock-sms",
+    "storage_bucket": "gest-stock-sms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827310554680:android:580d466bae91c142bf70cd",
+        "android_client_info": {
+          "package_name": "com.example.sms_boutique"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827310554680-jdkp54008uh5ulin3uvisvgqdidgvcqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDESefgCFP_doAjqloOEs5MxoV7nHiBJjw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827310554680-jdkp54008uh5ulin3uvisvgqdidgvcqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
