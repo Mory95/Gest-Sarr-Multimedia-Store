@@ -39,13 +39,13 @@ class _AddArticleState extends State<AddArticle> {
         .collection('categories')
         .get()
         .then((value) {
-      value.docs.forEach((element) {
+      for (var element in value.docs) {
         setState(() {
           _items.add(element.get('name'));
         });
         // print(element.get('name'));
         // print(_items);
-      });
+      }
     });
   }
 
@@ -125,17 +125,18 @@ class _AddArticleState extends State<AddArticle> {
                 // ),
                 DropdownButtonFormField<String>(
                   value: _selectedCategory,
+                  items: _items.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      // onTap: () => print(value),
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                   onChanged: (value) {
                     setState(() {
                       _selectedCategory = value;
                     });
                   },
-                  items: _items.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
                   decoration: const InputDecoration(
                     labelText: 'Categorie',
                   ),
@@ -167,13 +168,15 @@ class _AddArticleState extends State<AddArticle> {
                           style: TextStyle(fontSize: 30.0),
                         ))),
                       );
+                      // Apres l'ajout on retourne à la page AllArticle
+                      Navigator.pop(context);
                       setState(() {
                         name.text = '';
                         description.text = '';
                         quantity.text = '';
                         price.text = '';
                         img.text = '';
-                        _selectedCategory = '';
+                        // _selectedCategory = '';
                       });
                     }
                   },

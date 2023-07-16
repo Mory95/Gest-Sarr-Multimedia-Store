@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_boutique/screens/article/detailsArticle.dart';
+import 'package:sms_boutique/services/articleService.dart';
 
 import '../../models/article.dart';
 
@@ -61,6 +62,16 @@ class _ArticlesState extends State<AllArticles> {
                           )),
                           title: Text(allArticles[index].name.toString()),
                           subtitle: Text(allArticles[index].price.toString()),
+                          trailing: IconButton(
+                            onPressed: () {
+                              print(allArticles[index].id);
+                              deleteArticle(allArticles[index]);
+                            },
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                          ),
                         ),
                       ),
                     );

@@ -17,7 +17,7 @@ class _DetailsArticleState extends State<DetailsArticle> {
   @override
   void initState() {
     super.initState();
-    print(widget.article.name);
+    // print(widget.article.name);
   }
 
   @override
@@ -25,7 +25,7 @@ class _DetailsArticleState extends State<DetailsArticle> {
     final data = widget.article;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Article'),
+        title: const Text('Détail article'),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -43,7 +43,7 @@ class _DetailsArticleState extends State<DetailsArticle> {
                 child: const Text('Image article'),
               ),
               Text(
-                'Name: ${data.name}\nDescription: ${data.description}\nPrix: ${data.price}\nQuantité en stock: ${data.quantity}\nCategorie: ${data.categorie_id}\nAutheur: ${data.author_id}',
+                'Name: ${data.name}\nDescription: ${data.description}\nPrix: ${data.price} FCFA\nQuantité en stock: ${data.quantity}\nCategorie: ${data.categorie_id}\nAutheur: ${data.author_id}',
                 style: const TextStyle(fontSize: 25.0),
               ),
 
