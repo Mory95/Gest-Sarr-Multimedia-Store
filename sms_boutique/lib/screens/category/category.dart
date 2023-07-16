@@ -93,6 +93,7 @@ class _CategoryArticleState extends State<CategoryArticle> {
                           title: Text(allCategories[index].name.toString()),
                           trailing: Wrap(
                             children: [
+                              ///// modification de categorie /////
                               CircleAvatar(
                                 backgroundColor: Colors.grey[700],
                                 child: IconButton(
@@ -108,63 +109,50 @@ class _CategoryArticleState extends State<CategoryArticle> {
                                       builder: (context) => AlertDialog(
                                         content: Form(
                                           key: _formKey,
-                                          child: Wrap(
-                                            children: [
-                                              TextFormField(
-                                                controller: ctrName,
-                                                decoration:
-                                                    const InputDecoration(
-                                                        labelText: 'name'),
-                                                validator: (value) {
-                                                  if (value == null ||
-                                                      value.isEmpty) {
-                                                    return 'Donne le nouveau nom';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      if (_formKey.currentState!
-                                                          .validate()) {
-                                                        updateCategory(Category(
-                                                            id: id,
-                                                            name:
-                                                                ctrName.text));
-                                                        id = '';
-                                                        ctrName.text = '';
-                                                        Navigator.pop(context);
-                                                      }
-                                                    },
-                                                    child:
-                                                        const Text('Valider'),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 15.0,
-                                                  ),
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      id = '';
-                                                      ctrName.text = '';
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child:
-                                                        const Text('Annuler'),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
+                                          child: TextFormField(
+                                            controller: ctrName,
+                                            autofocus: true,
+                                            decoration: const InputDecoration(
+                                                labelText: 'Nom'),
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Donne le nouveau nom';
+                                              }
+                                              return null;
+                                            },
                                           ),
                                         ),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                updateCategory(Category(
+                                                    id: id,
+                                                    name: ctrName.text));
+                                                id = '';
+                                                ctrName.text = '';
+                                                Navigator.pop(context);
+                                              }
+                                            },
+                                            child: const Text('Modifier'),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              id = '';
+                                              ctrName.text = '';
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Annuler'),
+                                          ),
+                                        ],
                                       ),
                                     );
                                   },
                                 ),
                               ),
+                              ///// suppression d'une categorie /////
                               IconButton(
                                 onPressed: () {
                                   showDialog(
@@ -206,8 +194,8 @@ class _CategoryArticleState extends State<CategoryArticle> {
                 return const CircularProgressIndicator();
               }
             }),
+        ///// Ajout d'une categorie /////
         floatingActionButton: FloatingActionButton(
-          //////    Ouverure d'un dialogBox
           // onPressed: () => _showMyDialog(Category(id: '', name: null)),
           child: const Icon(Icons.add),
           onPressed: () {
@@ -219,7 +207,8 @@ class _CategoryArticleState extends State<CategoryArticle> {
                   key: _formKey,
                   child: TextFormField(
                     controller: ctrName,
-                    decoration: const InputDecoration(labelText: 'name'),
+                    autofocus: true,
+                    decoration: const InputDecoration(labelText: 'Nom'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Donner le nom de la categorie à ajouter';
