@@ -49,16 +49,46 @@ class _SaleDetailsState extends State<SaleDetails> {
         appBar: AppBar(
           title: const Text('Details'),
         ),
-        body: ListView.builder(
-            itemCount: length,
-            itemBuilder: ((context, index) {
-              return Card(
-                child: ListTile(
-                  title: Text(vente[index]['nom']),
-                  subtitle: Text(vente[index]['prix'].toString()),
-                  trailing: Text('test'),
-                ),
-              );
-            })));
+        // body: ListView.builder(
+        //   itemCount: length,
+        //   itemBuilder: ((context, index) {
+        //     return Card(
+        //       child: ListTile(
+        //         title: Text(vente[index]['nom']),
+        //         subtitle: Text(vente[index]['prix'].toString()),
+        //         trailing: Text(vente[index]['qty'].toString()),
+        //       ),
+        //     );
+        //   }),
+        // ),
+        body: ListView(
+          children: [
+            _createDataTable(),
+          ],
+        ));
+  }
+
+  DataTable _createDataTable() {
+    return DataTable(columns: _createColumns(), rows: _createRows());
+  }
+
+  List<DataColumn> _createColumns() {
+    return const [
+      DataColumn(label: Text('Nom')),
+      DataColumn(label: Text('Prix/u')),
+      DataColumn(label: Text('Qté')),
+      DataColumn(label: Text('Total'))
+    ];
+  }
+
+  List<DataRow> _createRows() {
+    return vente
+        .map((book) => DataRow(cells: [
+              DataCell(Text(book['nom'])),
+              DataCell(Text(book['prix'].toString())),
+              DataCell(Text(book['qty'].toString())),
+              DataCell(Text('${book['total']}f'))
+            ]))
+        .toList();
   }
 }

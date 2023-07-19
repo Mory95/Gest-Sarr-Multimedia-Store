@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sms_boutique/screens/sale/repair/detailService.dart';
 
 class Repair extends StatefulWidget {
   const Repair({super.key});
@@ -13,19 +14,29 @@ class _RepairState extends State<Repair> {
   List<String> allRepair = [];
   List<int> nbRepair = [];
   List<int> total = [];
+  int nb = 0;
   // int nb = 0;
   final db = FirebaseFirestore.instance.collection('repair_services');
 
-  getAllSales() async {
+  getAllRepairService() async {
     await db.get().then((value) {
       for (var element in value.docs) {
         setState(() {
+          // print(element.id);
           allRepair.add(element.id);
           nbRepair.add(element.get('nbRepair'));
-          total.add(element.get('total'));
+          total.add(element.get('totalJournee'));
         });
+        // print(allRepair.length);
       }
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getAllRepairService();
   }
 
   @override
@@ -33,15 +44,22 @@ class _RepairState extends State<Repair> {
     return Scaffold(
       body: Scaffold(
           body: ListView.builder(
-              itemCount: 5,
+              itemCount: allRepair.length,
               itemBuilder: ((context, index) {
                 return InkWell(
-                  onTap: () => print('cool'),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            DetailsRepairService(repairId: allRepair[index]),
+                      ),
+                    );
+                  },
                   child: Card(
                       child: ListTile(
-                    title: Text("Changement d'écran"),
-                    subtitle: Text('2500f'),
-                    trailing: Text('2'),
+                    title: Text(allRepair[index]),
+                    subtitle: Text('${total[index].toString()}f'),
+                    trailing: Text(nbRepair[index].toString()),
                   )),
                 );
               })),

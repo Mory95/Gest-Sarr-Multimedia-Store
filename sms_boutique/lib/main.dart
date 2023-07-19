@@ -19,7 +19,7 @@ Future<void> main() async {
   );
 
   // Vérifie si un nœud journalier existe pour le jour actuel
-  await checkDailyNodeExists();
+  // await checkDailyNodeExists();
 
   runApp(const MyApp());
 }

@@ -18,7 +18,7 @@ class _AddRepairState extends State<AddRepair> {
 
   String dateDay = DateFormat('yyyy-MM-dd').format(DateTime.now());
   final repair = FirebaseFirestore.instance.collection('repair_services');
-  int nb = 0;
+  int nb = 1;
   int totalJournee = 0;
 
   addRepair() async {
@@ -28,9 +28,16 @@ class _AddRepairState extends State<AddRepair> {
       int price = int.parse(prix.text);
       var test = value.docs.where((element) => element.id == dateDay);
       if (test.isEmpty) {
-        repair
-            .doc(dateDay)
-            .set({'id': dateDay, 'nbRepair': 0, 'totalJournee': totalJournee});
+        repair.doc(dateDay).set({
+          'id': dateDay,
+          'nbRepair': nb,
+          'totalJournee': price,
+          'vente$nb': {
+            'libelle': lib,
+            'detail': det,
+            'prix': price,
+          },
+        });
       } else {
         setState(() {
           nb = test.first.get('nbRepair') + 1;
@@ -47,6 +54,11 @@ class _AddRepairState extends State<AddRepair> {
               totalJournee, // on doit afficher le totalité des ventes journalier
         });
       }
+    });
+    setState(() {
+      libelle.text = '';
+      details.text = '';
+      prix.text = '';
     });
   }
 

@@ -21,7 +21,7 @@ class _AddSaleState extends State<AddSale> {
   final TextEditingController _suggestionController = TextEditingController();
   String suggestionQuantity = '';
   String suggestionPrice = '';
-  int nb = 0;
+  int nb = 1;
   int totalJournee = 0;
   String dateDay = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String time = DateFormat.Hms().format(DateTime.now());
@@ -57,83 +57,42 @@ class _AddSaleState extends State<AddSale> {
 
   createSale() async {
     await ventes.get().then((value) {
+      String name = _suggestionController.text;
       int price = int.parse(priceController.text);
       int qty = int.parse(qtyController.text);
       int total = price * qty;
       var test = value.docs.where((element) => element.id == dateDay);
       if (test.isEmpty) {
-        ventes.doc(dateDay).set({'id': dateDay, 'nbSales': 0, 'total': 0});
-        // print('Creationnnnnnn réussiiiiiiiiiiiiiiii');
+        ventes.doc(dateDay).set({
+          'id': dateDay,
+          'nbSales': nb,
+          'total': total,
+          'vente$nb': {'nom': name, 'prix': price, 'qty': qty, 'total': total},
+        });
       } else {
-        // print('on doit récupérer le nbSales===');
-        // print(test.first.get('nbSales'));
         setState(() {
           nb = test.first.get('nbSales') + 1;
           totalJournee = test.first.get('total') + total;
         });
-        // print(nb);
         // Ajouter la vente à la sous-collection de ventes pour le jour actuel
         ventes.doc(dateDay).update({
-          'vente$nb': {'nom': 'set', 'prix': price, 'qty': qty, 'total': total},
+          'vente$nb': {'nom': name, 'prix': price, 'qty': qty, 'total': total},
           'nbSales': nb,
           'total':
               totalJournee, // on doit afficher le totalité des ventes journalier
           // 'timestamp': DateTime.now(),
         });
-        // ventes.doc(dateDay).set({
-        //   time: {'nom': 'set', 'prix': 500, 'qty': 5, 'total': 25000},
-        //   // 'number': 5,
-        //   'timestamp': DateTime.now(),
-        // }, SetOptions(merge: true));
-        // ventes.doc(dateDay).update({'nbSales': nb, 'total': 1500});
       }
     });
+
+    setState(() {
+      _suggestionController.text = '';
+      qtyController.text = '';
+      priceController.text = '';
+      suggestionPrice = '';
+      suggestionQuantity = '';
+    });
   }
-
-  // // Create ventes(collection) => yyyy-MM-dd(document)
-  // final dailyNodeRef = FirebaseFirestore.instance
-  //     .collection('ventes')
-  //     .doc(DateFormat('yyyy-MM-dd').format(DateTime.now()));
-  // // Dès qu'on entre dans la page ventes on crée une
-  // void sale() async {
-  //   // For get last day saved using timestamp in ventes=>yyyy-MM-dd=>hh:mm:ss=>generate_id=>timestamps(champs)
-  //   final lastSaleQuery = dailyNodeRef
-  //       .collection('ventes')
-  //       .orderBy('timestamp', descending: true)
-  //       .limit(1);
-
-  //   final lastSaleSnapshot = await lastSaleQuery.get();
-  //   if (lastSaleSnapshot.docs.isEmpty
-  //       // DateFormat('yyyy-MM-dd')
-  //       //         .format(lastSaleSnapshot.docs.first['timestamp']) !=
-  //       //     DateFormat('yyyy-MM-dd').format(DateTime.now())
-  //       ) {
-  //     print('++++++++++++++++++++++++++++++++++++++++++++++++');
-  //     // Créer un nœud pour le jour actuel
-  //     await dailyNodeRef.set({'nbSales': 0, 'total': 0});
-  //   }
-  // }
-
-  // void addSale(String qty, String salePrice) async {
-  //   await FirebaseFirestore.instance
-  //       .collection('ventes')
-  //       .doc(DateFormat('yyyy-MM-dd').format(DateTime.now()))
-  //       .get()
-  //       .then((value) {
-  //     // nb = value.get('nbSales');
-  //     print(value.get('nbSales'));
-  //   });
-  //   // Ajouter la vente à la sous-collection de ventes pour le jour actuel
-  //   // await dailyNodeRef.collection(DateFormat.Hms().format(DateTime.now())).add({
-  //   //   'salePrice': int.parse(salePrice),
-  //   //   'number': int.parse(qty),
-  //   //   'timestamp': DateTime.now(),
-  //   // });
-  //   setState(() {
-  //     nb++;
-  //   });
-  //   dailyNodeRef.update({'nbSales': nb, 'total': 1500});
-  // }
 
   @override
   void initState() {
@@ -175,15 +134,11 @@ class _AddSaleState extends State<AddSale> {
                   },
                   onSuggestionSelected: (suggestion) {
                     setState(() {
-                      // if (suggestion == null) {
-                      //   print('object');
-                      // }
                       suggestionQuantity = suggestion.quantity.toString();
                       suggestionPrice = suggestion.price.toString();
                     });
                     // Cette fonction est appelée lorsque l'utilisateur sélectionne une suggestion
                     _suggestionController.text = suggestion.name.toString();
-                    // print('Suggestion sélectionnée: $suggestion');
                   },
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -249,7 +204,6 @@ class _AddSaleState extends State<AddSale> {
                     if (_formKey.currentState!.validate()) {
                       // _formKey.currentState!.save();
                       createSale();
-                      // addSale(qtyController.text, priceController.text);
                     }
                   },
                   child: const Text('Ajouter une vente'),
