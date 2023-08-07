@@ -14,6 +14,8 @@ class _HomePageState extends State<HomePage> {
     'allArticles',
     'categories',
     'ventes',
+    'accounting',
+    'spending',
     'ref'
     // 'notifications',
     // 'users'

@@ -29,29 +29,29 @@ class _AllSalesState extends State<AllSales> {
     });
   }
 
-  getSales() async {
-    // details vente
-    await db.get().then((value) {
-      for (var element in value.docs) {
-        setState(() {
-          allSales.add(element.id);
-          nbSales.add(element.get('nbSales'));
-          // print(element.id);
-          for (var i = 0; i < element.data()['nbSales']; i++) {
-            // print(element.data().containsKey('vente${i + 1}'));
-            // print(element.data()['vente${i + 1}']);
-            // print(element.data().containsKey('vente${i + 1}'));
-            if (element.data().containsKey('vente${i + 1}')) {
-              print(element.data()['vente${i + 1}']['nom']);
-              print(element.data()['vente${i + 1}']['prix']);
-              print(element.data()['vente${i + 1}']['qty']);
-              print(element.data()['vente${i + 1}']['total']);
-            }
-          }
-        });
-      }
-    });
-  }
+  // getSales() async {
+  //   // details vente
+  //   await db.get().then((value) {
+  //     for (var element in value.docs) {
+  //       setState(() {
+  //         allSales.add(element.id);
+  //         nbSales.add(element.get('nbSales'));
+  //         // print(element.id);
+  //         for (var i = 0; i < element.data()['nbSales']; i++) {
+  //           // print(element.data().containsKey('vente${i + 1}'));
+  //           // print(element.data()['vente${i + 1}']);
+  //           // print(element.data().containsKey('vente${i + 1}'));
+  //           if (element.data().containsKey('vente${i + 1}')) {
+  //             print(element.data()['vente${i + 1}']['nom']);
+  //             print(element.data()['vente${i + 1}']['prix']);
+  //             print(element.data()['vente${i + 1}']['qty']);
+  //             print(element.data()['vente${i + 1}']['total']);
+  //           }
+  //         }
+  //       });
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {

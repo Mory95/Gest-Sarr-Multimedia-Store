@@ -2,54 +2,54 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AddRepair extends StatefulWidget {
-  const AddRepair({super.key});
+class AddSpending extends StatefulWidget {
+  const AddSpending({super.key});
 
   @override
-  State<AddRepair> createState() => _AddRepairState();
+  State<AddSpending> createState() => _AddSpendingState();
 }
 
-class _AddRepairState extends State<AddRepair> {
+class _AddSpendingState extends State<AddSpending> {
   final _formKey = GlobalKey<FormState>();
 
   final libelle = TextEditingController();
   final details = TextEditingController();
-  final prix = TextEditingController();
+  final somme = TextEditingController();
 
   String dateDay = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  final repair = FirebaseFirestore.instance.collection('repair_services');
+  final repair = FirebaseFirestore.instance.collection('spending');
   int nb = 1;
   int totalJournee = 0;
 
-  addRepair() async {
+  add() async {
     await repair.get().then((value) {
       String lib = libelle.text;
       String det = details.text;
-      int price = int.parse(prix.text);
-      var test = value.docs.where((element) => element.id == dateDay);
-      if (test.isEmpty) {
+      int val = int.parse(somme.text);
+      var spend = value.docs.where((element) => element.id == dateDay);
+      if (spend.isEmpty) {
         repair.doc(dateDay).set({
           'id': dateDay,
-          'nbRepair': nb,
-          'totalJournee': price,
-          'vente$nb': {
+          'nbSpend': nb,
+          'totalJournee': val,
+          'depense$nb': {
             'libelle': lib,
             'detail': det,
-            'prix': price,
+            'somme': val,
           },
         });
       } else {
         setState(() {
-          nb = test.first.get('nbRepair') + 1;
-          totalJournee = test.first.get('totalJournee') + price;
+          nb = spend.first.get('nbSpend') + 1;
+          totalJournee = spend.first.get('totalJournee') + val;
         });
         repair.doc(dateDay).update({
-          'vente$nb': {
+          'depense$nb': {
             'libelle': lib,
             'detail': det,
-            'prix': price,
+            'somme': val,
           },
-          'nbRepair': nb,
+          'nbSpend': nb,
           'totalJournee':
               totalJournee, // on doit afficher le totalité des ventes journalier
         });
@@ -58,21 +58,15 @@ class _AddRepairState extends State<AddRepair> {
     setState(() {
       libelle.text = '';
       details.text = '';
-      prix.text = '';
+      somme.text = '';
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // repair.doc(dateDay).set({'id': dateDay, 'nbRepair': 0, 'totalJournee': 0});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Ajouter un service"),
+        title: const Text('Ajouter une dépense'),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -105,10 +99,10 @@ class _AddRepairState extends State<AddRepair> {
                   },
                 ),
                 TextFormField(
-                  controller: prix,
+                  controller: somme,
                   keyboardType: const TextInputType.numberWithOptions(
                       signed: false, decimal: false),
-                  decoration: const InputDecoration(labelText: 'Prix'),
+                  decoration: const InputDecoration(labelText: 'Somme'),
                   validator: (prix) {
                     if (prix == null || prix.isEmpty) {
                       return 'Veillez saisir le prix';
@@ -119,7 +113,7 @@ class _AddRepairState extends State<AddRepair> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      addRepair();
+                      add();
                       print('object');
                     }
                   },

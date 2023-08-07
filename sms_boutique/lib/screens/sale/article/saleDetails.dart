@@ -22,7 +22,7 @@ class _SaleDetailsState extends State<SaleDetails> {
       setState(() {
         length = val['nbSales'];
         for (var i = 0; i < length; i++) {
-          print(val['vente${i + 1}']['nom']);
+          // print(val['vente${i + 1}']['nom']);
           vente.add({
             'nom': val['vente${i + 1}']['nom'],
             'prix': val['vente${i + 1}']['prix'],
@@ -75,7 +75,12 @@ class _SaleDetailsState extends State<SaleDetails> {
   List<DataColumn> _createColumns() {
     return const [
       DataColumn(label: Text('Nom')),
-      DataColumn(label: Text('Prix/u')),
+      DataColumn(
+          label: Expanded(
+              child: Text(
+        'Prix/u',
+        overflow: TextOverflow.ellipsis,
+      ))),
       DataColumn(label: Text('Qté')),
       DataColumn(label: Text('Total'))
     ];

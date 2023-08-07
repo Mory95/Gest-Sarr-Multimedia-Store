@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Article {
   String id;
-  final String? name;
-  final String? description;
-  final String? price;
-  final String? image;
-  final String? quantity;
-  final String? author_id;
-  final String? categorie_id;
+  String? name;
+  String? description;
+  String? price;
+  String? image;
+  String? quantity;
+  String? author_id;
+  String? categorie_id;
 
   Article({
     this.id = '',

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sms_boutique/screens/accounting/accounting.dart';
 import 'package:sms_boutique/screens/article/addArticle.dart';
 import 'package:sms_boutique/screens/article/allArticles.dart';
 import 'package:sms_boutique/screens/category/category.dart';
@@ -9,6 +10,8 @@ import 'package:sms_boutique/screens/sale/article/allSales.dart';
 import 'package:sms_boutique/screens/sale/article/addSale.dart';
 import 'package:sms_boutique/screens/sale/repair/addRepair.dart';
 import 'package:sms_boutique/screens/sale/sales.dart';
+import 'package:sms_boutique/screens/spending/AddSpending.dart';
+import 'package:sms_boutique/screens/spending/spending.dart';
 import 'firebase_options.dart';
 import 'screens/home.dart';
 
@@ -33,12 +36,15 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/allArticles': (context) => const AllArticles(),
-        '/addArticle': (context) => const AddArticle(),
-        '/categories': (context) => const CategoryArticle(),
         '/ventes': (context) => const LesVentes(),
-        '/ref': (context) => const AllSales(),
+        '/categories': (context) => const CategoryArticle(),
+        '/spending': (context) => const Spend(),
+        '/accounting': (context) => const Accounting(),
+        '/addArticle': (context) => const AddArticle(),
         '/addSale': (context) => const AddSale(),
+        '/addSpend': (context) => const AddSpending(),
         '/addRepair': (context) => const AddRepair(),
+        '/ref': (context) => const AllSales(),
       },
       // theme: ThemeData(
       //   primarySwatch: Colors.blue,

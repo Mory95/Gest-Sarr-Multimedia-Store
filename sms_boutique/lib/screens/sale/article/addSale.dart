@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:sms_boutique/models/article.dart';
+import 'package:sms_boutique/services/articleService.dart';
 
 class AddSale extends StatefulWidget {
   const AddSale({super.key});
@@ -19,14 +20,13 @@ class _AddSaleState extends State<AddSale> {
   final db = FirebaseFirestore.instance.collection('articles');
   final ventes = FirebaseFirestore.instance.collection('ventes');
   final TextEditingController _suggestionController = TextEditingController();
+  Article art = Article();
   String suggestionQuantity = '';
   String suggestionPrice = '';
   int nb = 1;
   int totalJournee = 0;
   String dateDay = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String time = DateFormat.Hms().format(DateTime.now());
-
-  String price = '';
 
   Future<List<Article>> getSuggestions(String query) async {
     // récupérer les données de Firebase
@@ -35,11 +35,14 @@ class _AddSaleState extends State<AddSale> {
     // ajouter les articles dans une liste(artSug)
     for (var element in snapshot.docs) {
       artSug.add(Article(
+        id: element.get('id'),
         name: element.get('name'),
         description: element.get('description'),
         price: element.get('price'),
         image: element.get('image'),
         quantity: element.get('quantity'),
+        categorie_id: element.get('categorie_id'),
+        // author_id: element.get('author_id'),
       ));
       // print(artSug);
     }
@@ -56,11 +59,12 @@ class _AddSaleState extends State<AddSale> {
   }
 
   createSale() async {
+    String name = _suggestionController.text;
+    int price = int.parse(priceController.text);
+    int qty = int.parse(qtyController.text);
+    int total = price * qty;
+    String newArticleQty = (int.parse(suggestionQuantity) - qty).toString();
     await ventes.get().then((value) {
-      String name = _suggestionController.text;
-      int price = int.parse(priceController.text);
-      int qty = int.parse(qtyController.text);
-      int total = price * qty;
       var test = value.docs.where((element) => element.id == dateDay);
       if (test.isEmpty) {
         ventes.doc(dateDay).set({
@@ -83,15 +87,21 @@ class _AddSaleState extends State<AddSale> {
           // 'timestamp': DateTime.now(),
         });
       }
+    }).whenComplete(() {
+      setState(() {
+        art.quantity = newArticleQty;
+      });
+      updateArticle(art);
     });
 
-    setState(() {
-      _suggestionController.text = '';
-      qtyController.text = '';
-      priceController.text = '';
-      suggestionPrice = '';
-      suggestionQuantity = '';
-    });
+    // setState(() {
+    //   _suggestionController.text = '';
+    //   qtyController.text = '';
+    //   priceController.text = '';
+    //   suggestionPrice = '';
+    //   suggestionQuantity = '';
+    //   art = Article();
+    // });
   }
 
   @override
@@ -134,6 +144,7 @@ class _AddSaleState extends State<AddSale> {
                   },
                   onSuggestionSelected: (suggestion) {
                     setState(() {
+                      art = suggestion;
                       suggestionQuantity = suggestion.quantity.toString();
                       suggestionPrice = suggestion.price.toString();
                     });
