@@ -1,5 +1,6 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_boutique/screens/sale/article/saleDetails.dart';
 

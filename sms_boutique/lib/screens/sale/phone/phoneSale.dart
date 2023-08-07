@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class Phone extends StatefulWidget {
@@ -11,7 +12,7 @@ class Phone extends StatefulWidget {
 class _PhoneState extends State<Phone> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Text('Les ventes de téléphone'),
     );
   }

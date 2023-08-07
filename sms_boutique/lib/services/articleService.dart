@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sms_boutique/models/article.dart';
 
@@ -10,7 +12,7 @@ List<Article> getAllArticle() {
   List<Article> articles = [];
   // print('--------------------------------------');
   db.get().then((QuerySnapshot value) {
-    value.docs.forEach((element) {
+    for (var element in value.docs) {
       articles.add(Article(
         name: element['name'],
         description: element['description'],
@@ -19,7 +21,7 @@ List<Article> getAllArticle() {
         author_id: element['author_id'],
         categorie_id: element['categorie_id'],
       ));
-    });
+    }
     print(articles.length);
   });
   return articles;

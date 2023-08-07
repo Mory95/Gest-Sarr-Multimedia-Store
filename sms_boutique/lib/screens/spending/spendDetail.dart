@@ -1,6 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SpendDetail extends StatefulWidget {
   String spendId;
   SpendDetail({super.key, required this.spendId});
@@ -18,9 +21,6 @@ class _SpendDetailState extends State<SpendDetail> {
       var val = value.docs.first.data();
       setState(() {
         for (var i = 0; i < val['nbSpend']; i++) {
-          // print(val['vente${i + 1}']['libelle']);
-          // print(val['vente${i + 1}']['detail']);
-          // print(val['vente${i + 1}']['prix']);
           setState(() {
             spend.add({
               'libelle': val['depense${i + 1}']['libelle'],
@@ -47,7 +47,6 @@ class _SpendDetailState extends State<SpendDetail> {
       ),
       body: ListView(
         children: [
-          // Text('data'),
           _createDataTable(),
         ],
       ),
@@ -72,7 +71,6 @@ class _SpendDetailState extends State<SpendDetail> {
               DataCell(Text(rep['libelle'])),
               DataCell(Text(rep['detail'].toString())),
               DataCell(Text('${rep['somme'].toString()}f')),
-              // DataCell(Text('${rep['total']}f'))
             ]))
         .toList();
   }

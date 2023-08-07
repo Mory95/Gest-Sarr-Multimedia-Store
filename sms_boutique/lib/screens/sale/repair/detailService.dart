@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +21,6 @@ class _DetailsRepairServiceState extends State<DetailsRepairService> {
       var val = value.docs.first.data();
       setState(() {
         for (var i = 0; i < val['nbRepair']; i++) {
-          // print(val['vente${i + 1}']['libelle']);
-          // print(val['vente${i + 1}']['detail']);
-          // print(val['vente${i + 1}']['prix']);
           setState(() {
             repair.add({
               'libelle': val['vente${i + 1}']['libelle'],
@@ -43,7 +42,7 @@ class _DetailsRepairServiceState extends State<DetailsRepairService> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Detail du service')),
+      appBar: AppBar(title: const Text('Detail du service')),
       body: ListView(
         children: [
           _createDataTable(),

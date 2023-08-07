@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, avoid_print
+
 import 'dart:async';
 import 'dart:io' show Platform;
 import 'dart:math';
@@ -9,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class MyApp1 extends StatefulWidget {
+  const MyApp1({super.key});
+
   @override
   State<MyApp1> createState() => _MyApp1State();
 }
@@ -21,14 +25,14 @@ class _MyApp1State extends State<MyApp1> {
     if (!isCupertino) {
       return MaterialApp(
         title: 'flutter_typeahead demo',
-        scrollBehavior: MaterialScrollBehavior().copyWith(
+        scrollBehavior: const MaterialScrollBehavior().copyWith(
             dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch}),
         home: DefaultTabController(
           length: 3,
           child: Scaffold(
               appBar: AppBar(
                 leading: IconButton(
-                  icon: Icon(Icons.phone_iphone),
+                  icon: const Icon(Icons.phone_iphone),
                   onPressed: () => setState(() {
                     isCupertino = true;
                   }),
@@ -42,8 +46,8 @@ class _MyApp1State extends State<MyApp1> {
               body: GestureDetector(
                 onTap: () => FocusScope.of(context).unfocus(),
                 child: TabBarView(children: [
-                  NavigationExample(),
-                  FormExample(),
+                  const NavigationExample(),
+                  const FormExample(),
                   ScrollExample(),
                 ]),
               )),
@@ -55,14 +59,14 @@ class _MyApp1State extends State<MyApp1> {
         home: Scaffold(
           appBar: CupertinoNavigationBar(
             leading: IconButton(
-              icon: Icon(Icons.android),
+              icon: const Icon(Icons.android),
               onPressed: () => setState(() {
                 isCupertino = false;
               }),
             ),
-            middle: Text('Cupertino demo'),
+            middle: const Text('Cupertino demo'),
           ),
-          body: CupertinoPageScaffold(
+          body: const CupertinoPageScaffold(
             child: FavoriteCitiesPage(),
           ),
         ), //MyHomePage(),
@@ -72,13 +76,15 @@ class _MyApp1State extends State<MyApp1> {
 }
 
 class NavigationExample extends StatelessWidget {
+  const NavigationExample({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(32.0),
+      padding: const EdgeInsets.all(32.0),
       child: Column(
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             height: 10.0,
           ),
           TypeAheadField(
@@ -87,7 +93,7 @@ class NavigationExample extends StatelessWidget {
               style: DefaultTextStyle.of(context)
                   .style
                   .copyWith(fontStyle: FontStyle.italic),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'What are you looking for?'),
             ),
@@ -96,7 +102,7 @@ class NavigationExample extends StatelessWidget {
             },
             itemBuilder: (context, Map<String, String> suggestion) {
               return ListTile(
-                leading: Icon(Icons.shopping_cart),
+                leading: const Icon(Icons.shopping_cart),
                 title: Text(suggestion['name']!),
                 subtitle: Text('\$${suggestion['price']}'),
               );
@@ -118,6 +124,8 @@ class NavigationExample extends StatelessWidget {
 }
 
 class FormExample extends StatefulWidget {
+  const FormExample({super.key});
+
   @override
   _FormExampleState createState() => _FormExampleState();
 }
@@ -142,16 +150,16 @@ class _FormExampleState extends State<FormExample> {
         color: Colors.amber.withOpacity(0),
         // Create the form for the user to enter their favorite city
         child: Form(
-          key: this._formKey,
+          key: _formKey,
           child: Padding(
-            padding: EdgeInsets.all(32.0),
+            padding: const EdgeInsets.all(32.0),
             child: Column(
               children: <Widget>[
-                Text('What is your favorite city?'),
+                const Text('What is your favorite city?'),
                 TypeAheadFormField(
                   textFieldConfiguration: TextFieldConfiguration(
-                    decoration: InputDecoration(labelText: 'City'),
-                    controller: this._typeAheadController,
+                    decoration: const InputDecoration(labelText: 'City'),
+                    controller: _typeAheadController,
                   ),
                   suggestionsCallback: (pattern) {
                     return CitiesService.getSuggestions(pattern);
@@ -165,23 +173,22 @@ class _FormExampleState extends State<FormExample> {
                     return suggestionsBox;
                   },
                   onSuggestionSelected: (String suggestion) {
-                    this._typeAheadController.text = suggestion;
+                    _typeAheadController.text = suggestion;
                   },
                   suggestionsBoxController: suggestionBoxController,
                   validator: (value) =>
                       value!.isEmpty ? 'Please select a city' : null,
-                  onSaved: (value) => this._selectedCity = value,
+                  onSaved: (value) => _selectedCity = value,
                 ),
-                Spacer(),
+                const Spacer(),
                 ElevatedButton(
-                  child: Text('Submit'),
+                  child: const Text('Submit'),
                   onPressed: () {
-                    if (this._formKey.currentState!.validate()) {
-                      this._formKey.currentState!.save();
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(
-                              'Your Favorite City is ${this._selectedCity}'),
+                          content: Text('Your Favorite City is $_selectedCity'),
                         ),
                       );
                     }
@@ -199,7 +206,7 @@ class _FormExampleState extends State<FormExample> {
 class ProductPage extends StatelessWidget {
   final Map<String, String> product;
 
-  ProductPage({required this.product});
+  const ProductPage({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -209,11 +216,11 @@ class ProductPage extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              this.product['name']!,
+              product['name']!,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             Text(
-              this.product['price']! + ' USD',
+              '${product['price']!} USD',
               style: Theme.of(context).textTheme.titleMedium,
             )
           ],
@@ -229,19 +236,21 @@ class ProductPage extends StatelessWidget {
 class ScrollExample extends StatelessWidget {
   final List<String> items = List.generate(50, (index) => "Item $index");
 
+  ScrollExample({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      Center(
+      const Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Text("Suggestion box will resize when scrolling"),
         ),
       ),
-      SizedBox(height: 200),
+      const SizedBox(height: 200),
       TypeAheadField<String>(
         getImmediateSuggestions: true,
-        textFieldConfiguration: TextFieldConfiguration(
+        textFieldConfiguration: const TextFieldConfiguration(
           decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'What are you looking for?'),
@@ -261,7 +270,7 @@ class ScrollExample extends StatelessWidget {
           print("Suggestion selected");
         },
       ),
-      SizedBox(height: 500),
+      const SizedBox(height: 500),
     ]);
   }
 }
@@ -271,7 +280,7 @@ class ScrollExample extends StatelessWidget {
 /// In a real app, this would be a service that makes a network request.
 class BackendService {
   static Future<List<Map<String, String>>> getSuggestions(String query) async {
-    await Future<void>.delayed(Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 1));
 
     return List.generate(3, (index) {
       return {
@@ -310,6 +319,8 @@ class CitiesService {
 }
 
 class FavoriteCitiesPage extends StatefulWidget {
+  const FavoriteCitiesPage({super.key});
+
   @override
   _FavoriteCitiesPage createState() => _FavoriteCitiesPage();
 }
@@ -317,7 +328,7 @@ class FavoriteCitiesPage extends StatefulWidget {
 class _FavoriteCitiesPage extends State<FavoriteCitiesPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _typeAheadController = TextEditingController();
-  CupertinoSuggestionsBoxController _suggestionsBoxController =
+  final CupertinoSuggestionsBoxController _suggestionsBoxController =
       CupertinoSuggestionsBoxController();
   String favoriteCity = 'Unavailable';
 
@@ -330,13 +341,13 @@ class _FavoriteCitiesPage extends State<FavoriteCitiesPage> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsets.all(32.0),
+            padding: const EdgeInsets.all(32.0),
             child: Column(
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 100.0,
                 ),
-                Text('What is your favorite city?'),
+                const Text('What is your favorite city?'),
                 CupertinoTypeAheadFormField(
                   getImmediateSuggestions: true,
                   suggestionsBoxController: _suggestionsBoxController,
@@ -348,7 +359,7 @@ class _FavoriteCitiesPage extends State<FavoriteCitiesPage> {
                   ),
                   suggestionsCallback: (pattern) {
                     return Future.delayed(
-                      Duration(seconds: 1),
+                      const Duration(seconds: 1),
                       () => CitiesService.getSuggestions(pattern),
                     );
                   },
@@ -366,11 +377,11 @@ class _FavoriteCitiesPage extends State<FavoriteCitiesPage> {
                   validator: (value) =>
                       value!.isEmpty ? 'Please select a city' : null,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 CupertinoButton(
-                  child: Text('Submit'),
+                  child: const Text('Submit'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
@@ -380,7 +391,7 @@ class _FavoriteCitiesPage extends State<FavoriteCitiesPage> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 Text(

@@ -13,11 +13,11 @@ class _AccountingState extends State<Accounting> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Comptabilité'),
-        actions: [
-          Text("Total de vente"),
+        actions: const [
+          Text("Total des ventes"),
         ],
       ),
-      body: SingleChildScrollView(child: Text('Le compte')),
+      body: const SingleChildScrollView(child: Text('Le compte')),
     );
   }
 }

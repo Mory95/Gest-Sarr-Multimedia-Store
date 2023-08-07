@@ -1,5 +1,6 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -38,7 +39,6 @@ class _SaleDetailsState extends State<SaleDetails> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getSale();
   }

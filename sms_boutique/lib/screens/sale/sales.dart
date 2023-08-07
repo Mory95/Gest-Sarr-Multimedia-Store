@@ -1,5 +1,7 @@
 // import 'dart:async';
 
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:sms_boutique/screens/sale/article/allSales.dart';
 import 'package:sms_boutique/screens/sale/phone/phoneSale.dart';

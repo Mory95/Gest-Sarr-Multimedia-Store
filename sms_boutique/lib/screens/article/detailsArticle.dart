@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:sms_boutique/models/article.dart';
 
@@ -17,7 +19,6 @@ class _DetailsArticleState extends State<DetailsArticle> {
   @override
   void initState() {
     super.initState();
-    // print(widget.article.name);
   }
 
   @override
@@ -46,13 +47,6 @@ class _DetailsArticleState extends State<DetailsArticle> {
                 'Name: ${data.name}\nDescription: ${data.description}\nPrix: ${data.price} FCFA\nQuantité en stock: ${data.quantity}\nCategorie: ${data.categorie_id}\nAutheur: ${data.author_id}',
                 style: const TextStyle(fontSize: 25.0),
               ),
-
-              // Text('Name: ${data.name}'),
-              // Text('Description: ${data.description}'),
-              // Text('Prix: ${data.price}'),
-              // Text('Quantité en stock: ${data.quantity}'),
-              // Text('Categorie: ${data.categorie_id}'),
-              // Text('Autheur: ${data.author_id}'),
             ],
           ),
         ),

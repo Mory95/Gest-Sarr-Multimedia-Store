@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_boutique/services/articleService.dart';
@@ -173,7 +175,7 @@ class _EditArticleState extends State<EditArticle> {
                   //     return null;
                   //   },
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15.0,
                   ),
                   ElevatedButton(

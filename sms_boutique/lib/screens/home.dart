@@ -1,5 +1,7 @@
 // import 'dart:async';
 
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

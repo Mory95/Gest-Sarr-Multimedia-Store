@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_boutique/models/article.dart';
@@ -29,7 +31,6 @@ class _AddArticleState extends State<AddArticle> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCategory();
   }
@@ -113,16 +114,6 @@ class _AddArticleState extends State<AddArticle> {
                     return null;
                   },
                 ),
-                // TextFormField(
-                //   controller: category,
-                //   decoration: const InputDecoration(labelText: 'Categorie'),
-                //   validator: (category) {
-                //     if (category == null || category.isEmpty) {
-                //       return 'Veillez saisir la categorie';
-                //     }
-                //     return null;
-                //   },
-                // ),
                 DropdownButtonFormField<String>(
                   value: _selectedCategory,
                   items: _items.map<DropdownMenuItem<String>>((String value) {

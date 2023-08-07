@@ -1,4 +1,6 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:sms_boutique/models/article.dart';
 // import 'package:sms_boutique/services/articleService.dart';
@@ -86,9 +88,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Center(
+          title: const Center(
               child: Column(
-            children: const [
+            children: [
               Text('SMS'),
               Text(
                 'Sarr Multimédia Store',
