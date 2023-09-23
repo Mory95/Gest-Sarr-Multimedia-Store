@@ -58,9 +58,9 @@ class _AddRepairState extends State<AddRepair> {
       }
     });
     setState(() {
-      libelle.text = '';
-      details.text = '';
-      prix.text = '';
+      // libelle.text = '';
+      // details.text = '';
+      // prix.text = '';
     });
   }
 
@@ -122,7 +122,7 @@ class _AddRepairState extends State<AddRepair> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       addRepair();
-                      print('object');
+                      Navigator.pop(context);
                     }
                   },
                   child: const Text('Add'),

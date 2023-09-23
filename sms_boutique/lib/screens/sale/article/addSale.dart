@@ -29,6 +29,7 @@ class _AddSaleState extends State<AddSale> {
   int totalJournee = 0;
   String dateDay = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String time = DateFormat.Hms().format(DateTime.now());
+  bool added = false;
 
   Future<List<Article>> getSuggestions(String query) async {
     // récupérer les données de Firebase
@@ -65,7 +66,7 @@ class _AddSaleState extends State<AddSale> {
     int price = int.parse(priceController.text);
     int qty = int.parse(qtyController.text);
     int total = price * qty;
-    String newArticleQty = (int.parse(suggestionQuantity) - qty).toString();
+    art.quantity = (int.parse(suggestionQuantity) - qty).toString();
     await ventes.get().then((value) {
       var test = value.docs.where((element) => element.id == dateDay);
       if (test.isEmpty) {
@@ -90,20 +91,17 @@ class _AddSaleState extends State<AddSale> {
         });
       }
     }).whenComplete(() {
-      setState(() {
-        art.quantity = newArticleQty;
-      });
       updateArticle(art);
+      setState(() {
+        // added = true;
+        // _suggestionController.text = '';
+        // qtyController.text = '';
+        // priceController.text = '';
+        // suggestionPrice = '';
+        // suggestionQuantity = '';
+        // art = Article();
+      });
     });
-
-    // setState(() {
-    //   _suggestionController.text = '';
-    //   qtyController.text = '';
-    //   priceController.text = '';
-    //   suggestionPrice = '';
-    //   suggestionQuantity = '';
-    //   art = Article();
-    // });
   }
 
   @override
@@ -212,11 +210,25 @@ class _AddSaleState extends State<AddSale> {
                     ? Text(
                         "Le prix de vente min est de: $suggestionPrice franc")
                     : const SizedBox(),
+                // je dois améliorer le temps d'attente
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       // _formKey.currentState!.save();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            duration: Duration(seconds: 2),
+                            content: Center(
+                                child: Text(
+                              'Ajout en cour...',
+                              style: TextStyle(fontSize: 15.0),
+                            ))),
+                      );
+                      await Future.delayed(Duration(seconds: 3));
                       createSale();
+                      if (added = true) {
+                        Navigator.pop(context);
+                      }
                     }
                   },
                   child: const Text('Ajouter une vente'),
